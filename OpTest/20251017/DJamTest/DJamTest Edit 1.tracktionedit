@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<EDIT appVersion="Waveform 13.5.13" projectID="715a15/14431e2" creationTime="1760738657228"
+      lastSignificantChange="19a26b05ec5" modifiedBy="akeyte">
+  <TRANSPORT endToEnd="1" position="104.5" scrubInterval="0.7399999999999994"
+             start="104.5"/>
+  <PITCHSEQUENCE>
+    <PITCH startBeat="0.0" pitch="60"/>
+  </PITCHSEQUENCE>
+  <TEMPOSEQUENCE>
+    <TEMPO startBeat="0.0" bpm="120.0" curve="1.0"/>
+    <TIMESIG numerator="4" denominator="4" startBeat="0.0"/>
+  </TEMPOSEQUENCE>
+  <VIDEO/>
+  <CLICKTRACK level="0.6000000238418579"/>
+  <MASTERVOLUME>
+    <PLUGIN type="volume" volume="0.6681033372879028" id="1001" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+  </MASTERVOLUME>
+  <RACKS/>
+  <MASTERPLUGINS/>
+  <INPUTDEVICES>
+    <INPUTDEVICE deviceID="all_midi_in" name="All MIDI Ins">
+      <INPUTDEVICEDESTINATION targetID="1003" targetIndex="0" armed="1"/>
+    </INPUTDEVICE>
+    <INPUTDEVICE deviceID="wavein_d7bd293b" name="Input 1"/>
+    <INPUTDEVICE deviceID="wavein_d7bd293c" name="Input 2"/>
+  </INPUTDEVICES>
+  <TRACKCOMPS/>
+  <VIEWSTATE minimalTransportBar="1" hiddenClips="" lockedClips="" chordTrackVisible="0"
+             arrangerTrackVisible="0" enabledTrackTags="" currentSidePanel="Search"
+             browserSelection="result/samples" viewleft="98.68820960698676"
+             viewright="135.6882096069867" browserPanelTagsVisible="1"/>
+  <EDITMIXGROUPS/>
+  <SCENES/>
+  <AUDIOEDITING/>
+  <AUTOMAPXML/>
+  <ARRANGERTRACK name="Arranger" id="1027"/>
+  <CHORDTRACK name="Chord" id="1029"/>
+  <MARKERTRACK id="1002" name="Marker"/>
+  <TEMPOTRACK name="Global" id="1028">
+    <MODIFIERS/>
+  </TEMPOTRACK>
+  <MASTERTRACK name="Master" id="1030">
+    <MODIFIERS/>
+  </MASTERTRACK>
+  <TRACK id="1003" colour="ffff0000">
+    <MODIFIERS/>
+    <CLIPSLOTS/>
+    <PLUGIN type="vst" uniqueId="7f889d68" uid="44596959" filename="C:\_LocalFiles\source\repos\DJAM_0\out\build\x64-Debug\DJAM_0_artefacts\Debug\VST3\D-Jam.vst3\Contents\x86_64-win\D-Jam.vst3"
+            name="D-Jam" manufacturer="ArrynCo" windowLocked="1" id="1039"
+            enabled="1" windowX="1922" windowY="298" state="1844.VMjLgrxA...O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9DiL4fiKPUjZTEDL5QkKD4hP4cWLgoWP4cUZ2YkV1QCUXMWUF4RP1EUPtgSLgoVTsI1YAc0RpkzUiMGLRgEcQY0Ry3xPNMmcwDVcAcjK4cWLgoWQ4cUZ2YkV1QCUXMWUF4RPLEUPuACZYUWUsElZvHzXtUkUKkWQVMVZUYjK4cWLgoWR4cUZ2YkV1QCUXMWUF4RPHAUPtvzQgUWTxvTYMYTXuETaScFLVkkKDYlKE4hchIGNFMld2.CVxslQh4TQVE1ZAAkKBQkKtj2cwDldUk2UocmUZYGMTg0bUYjKAgDTA4BSGEVcQ0VSk0jQg8VPsM0YvXUVtPjYtTjK1Ilb3XzXxbCLXI2ZFIlSEYUXqEDTtHDUt3RPlEDUAkTUP0TPP4hPpYTVtPjKCUDSGEVcQcDSk0jQg8VPG4RLEYTXvTkQtDjZtDjKt3hKt3hKt3hKt3BTEoFUAACQtDDRPokZAAkKLQkchIGNFMlc2TUXvD0UY4BVWgkbUcUVtPDTBQjKt3hKt3hKt3hKt3hKUAkTEQ0TtPjYt7VTF4RP1AUP4cWLgoWP4cUd3XTX0EjYic1cVM1ZAAkKIAkKt3hKt3hKt3hKt3hKTETRUAUSAAkKBolQY4BQtLTQLcTX0E0ULUVSFE1aAcjKwTjQgASUF4RPp4RPt3hKt3hKt3hcqLjKPUjZTEDLD4RPHAkVpEDTtvDU1Ilb3XzX2cSUgASTWkkKXcEVxU0UY4BQPIDQt3hKt3hKt3hKt3hKtTETRUDUS4BQl4xaQYjKAYGTAk2cwDldEk2U4giQgUWPlM1Y2Y0XqEDTtjDTt3hKt3hKt3hKt3hKtPUPIUETMEDTtHjZFkkKD4xPEwzQgUWTswTYMYTXuEzQtDSQFEFLUYjKAolKA4hKt3hKt3hK1sxRt.UQpQUPvPjKAgDTZoVPP4BSTYmXxgiQig2MUEFLQcUVtf0UXIWUWkkKDAkPD4hKt3hKt3hKt3hKt3RUPIUQTMkKDYlKuEkQtDjcPETd2ESX5kTdWkGNFEVcAY1XmcmUisVPP4RRP4hKt3hKt3hKt3hKt3BUAkTUP0TPP4hPpYTVtPjKCUDSGEVcQICSk0jQg8VPG4RLEYTXvTkQtDjZtDjKt3hKt3hKtX2JK4BTEoFUAACQtDDRPokZAAkKLQkchIGNFMVd2TUXvD0UY4BVWgkbUcUVtPDTBQjKt3hKt3hKt3hKt3hKUAkTEQ0TtPjYt7VTF4RP1AUP4cWLgoWS4cUd3XTX0EjYic1cVM1ZAAkKIAkKt3hKt3hKt3hKt3hKTETRUAUSAAkKBolQY4BQtLTQLcTX0E0QMUVSFE1aAcjKwTjQgASUF4RPp4RPt3hKt3hKt3hcqrjKPUjZTEDLD4RPHAkVpEDTtvDU1Ilb3XzX5cSUgASTWkkKXcEVxU0UY4BQPIDQt3hKt3hKt3hKt3hKtTETRUDUS4BQl4xaQYjKAYGTAk2cwDldQk2U4giQgUWPlM1Y2Y0XqEDTtjDTt3hKt3hKt3hKt3hKtPUPIUETMEDTtHjZFkkKD4xPEwzQgUWTW0TYMYTXuEzQtDSQFEFLUYjKAolKA4hKt3hKt3hK1sxRt.UQpQUPvPjKAgDTZoVPP4BSTYmXxgiQiAyMUEFLQcUVtf0UXIWUWkkKDAkPD4hKt3hKt3hKt3hKt3RUPIUQTMkKDYlKuEkQtDjcPETd2ESX5UUdWkGNFEVcAY1XmcmUisVPP4RRP4hKt3hKt3hKt3hKt3BUAkTUP0TPP4hPpYTVtPjKCUDSGEVcQ0VSk0jQg8VPG4RLEYTXvTkQtDjZtDjKt3hKt3hKtX2JK4BTEoFUAACQtDDRPokZAAkKLQkchIGNFMVL2TUXvD0UY4BVWgkbUcUVtPDTBQjKt3hKt3hKt3hKt3hKUAkTEQ0TtPjYt7VTF4RP1AUP4cWLgoWV4cUd3XTX0EjYic1cVM1ZAAkKIAkKt3hKt3hKt3hKt3hKTETRUAUSAAkKBolQY4BQtLTQLcTX0EkLMUVSFE1aAcjKwTjQgASUF4RPp4RPt3hKt3hKt3hcqrjKPUjZTEDLD4RPHAkVpEDTtvDU1Ilb3XzXxbSUgASTWkkKXcEVxU0UY4BQPIDQt3hKt3hKt3hKt3hKtTETRUDUS4BQl4xaQYjKAYGTAk2cwDldik2U4giQgUWPlM1Y2Y0XqEDTtjDTt3hKt3hKt3hKt3hKt3hKt3hKt3hKt3haTU0PUQDU3sFaicVTWkEQEYzXmEDTtDDRTQlcEEiX4EDTtDDSt3xXt3hKt3hKt3hKlIUUMQUTPkzUZESQFM1ZQQEV5UjQ77RRC8Vav8lak4Fc9vyKVMEUy.Ea0cVZtMEcgQWY9.."
+            base64:layout="99.LETVOUEU..P.BjjSPUEUSA..ADfPUME.AHPZtQVY3AP.ED......rEVduUGc.DPAEvDHRA..OUEUPUEUSA..ADfPUME.AHPZtQVY3AP.ED......rEVduUGc.DPAEvDHRA..">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="volume" id="1004" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1005" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+  </TRACK>
+  <TRACK id="1006" colour="ffffaa00">
+    <MODIFIERS/>
+    <CLIPSLOTS/>
+    <AUDIOCLIP name="90 BPM Sample Loop 8 bars(2)" start="1.5" length="16.0"
+               offset="0.0" id="1038" source="715a15/1cfebeb" autoPitch="1"
+               autoTempo="1" stretchMode="1" elastiqueMode="6" sync="0" pan="0.0"
+               colour="ffffaa00" proxyAllowed="1" resamplingQuality="lagrange">
+      <LOOPINFO rootNote="60" numBeats="32.0" oneShot="0" denominator="4" numerator="4"
+                bpm="90.0" inMarker="0" outMarker="-1"/>
+      <AUTOMATIONCURVES/>
+    </AUDIOCLIP>
+    <PLUGIN type="volume" id="1007" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1008" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+  </TRACK>
+  <TRACK id="1009" colour="ffaaff00">
+    <MODIFIERS/>
+    <CLIPSLOTS/>
+    <PLUGIN type="volume" id="1010" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1011" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+  </TRACK>
+  <TRACK id="1012" colour="ff00ff00">
+    <MODIFIERS/>
+    <CLIPSLOTS/>
+    <PLUGIN type="volume" id="1013" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1014" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+  </TRACK>
+  <TRACK id="1015" colour="ff00ffaa">
+    <MODIFIERS/>
+    <CLIPSLOTS/>
+    <PLUGIN type="volume" id="1016" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1017" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+  </TRACK>
+  <TRACK id="1018" colour="ff00aaff">
+    <MODIFIERS/>
+    <CLIPSLOTS/>
+    <PLUGIN type="volume" id="1019" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1020" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+  </TRACK>
+  <TRACK id="1021" colour="ff0000ff">
+    <MODIFIERS/>
+    <CLIPSLOTS/>
+    <PLUGIN type="volume" id="1022" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1023" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+  </TRACK>
+  <TRACK id="1024" colour="ffaa00ff">
+    <MODIFIERS/>
+    <CLIPSLOTS/>
+    <PLUGIN type="volume" id="1025" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <PLUGIN type="level" id="1026" enabled="1">
+      <MODIFIERASSIGNMENTS/>
+    </PLUGIN>
+    <OUTPUTDEVICES>
+      <DEVICE name="(default audio output)"/>
+    </OUTPUTDEVICES>
+  </TRACK>
+</EDIT>

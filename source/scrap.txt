@@ -1,0 +1,88 @@
+
+void DJAM0AudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midi)
+{
+    juce::ScopedNoDenormals noDenormals;
+    buffer.clear();
+    juce::ignoreUnused(midi);
+
+    // Pull host timing (tempo, ppq, play state, etc.)
+    if (!getHostPhase(getPlayHead(), hostPhase))
+    {
+        // If host doesn’t provide timing, assume stopped
+        hostPhase.isPlaying = false;
+    }
+    hostPhase.sampleRate = getSampleRate();
+
+    const int blockSize = buffer.getNumSamples();
+    int remaining = blockSize;
+    int blockOffset = 0;
+
+    // Update mutes/solos from params
+    bool anySolo = false;
+    for (int i = 0; i < kNumSlots; ++i)
+    {
+        auto* pMute = apvts.getRawParameterValue(paramId_slotMute(i));
+        auto* pSolo = apvts.getRawParameterValue(paramId_slotSolo(i));
+        slots[(size_t)i].setSolo(pSolo && (*pSolo > 0.5f));
+        if (pMute) { if ((*pMute > 0.5f) != slots[(size_t)i].isMuted()) slots[(size_t)i].toggleMute(); }
+        anySolo = anySolo || (pSolo && *pSolo > 0.5f);
+    }
+
+    // Scene application (bar-quantized): if the scene param changed, arm requests
+    static int lastScene = -1;
+    const int sceneNow = (int)apvts.getRawParameterValue(kSceneSelect)->load();
+    if (sceneNow != lastScene)
+    {
+        applyScene(sceneNow);
+        lastScene = sceneNow;
+    }
+
+    // Split the buffer on bar boundaries for exact-quantize swapping
+    while (remaining > 0)
+    {
+        const int toNextBar = (hostPhase.isPlaying ? samplesToNextBar(hostPhase) : remaining);
+        const int step = std::min(remaining, std::max(1, toNextBar));
+        const bool crossesBar = hostPhase.isPlaying && (step == toNextBar);
+
+        // Make a view into the output for this step
+        juce::AudioBuffer<float> sub(buffer.getArrayOfWritePointers(),
+            buffer.getNumChannels(),
+            blockOffset,
+            step);
+
+        // Render each slot (respect solo)
+        for (int i = 0; i < kNumSlots; ++i)
+        {
+            if (anySolo && !slots[(size_t)i].isSolo())
+                continue;
+
+            slots[(size_t)i].render(sub, /*start*/0, step, /*destOffset*/0, hostPhase);
+        }
+
+        if (crossesBar)
+        {
+            // Commit scheduler requests at the bar
+            scheduler.flushAtBar([this](const StartRequest& r)
+                {
+                    if (r.slot >= 0 && r.slot < kNumSlots)
+                        slots[(size_t)r.slot].armStart(r.clip);
+                });
+
+            // Apply armed starts on each slot
+            for (auto& s : slots) s.applyArmedStart();
+        }
+
+        // Advance our host-phase mirror for math continuity
+        if (hostPhase.isPlaying)
+        {
+            hostPhase.currentSample += step;
+
+            const double samplesPerBeat = hostPhase.sampleRate * 60.0 / hostPhase.bpm;
+            hostPhase.ppqPosition += step / samplesPerBeat;
+        }
+
+        remaining -= step;
+        blockOffset += step;
+    }
+}
+
