@@ -1,9 +1,10 @@
-#include slotRow.h
+#include "SlotRow.h"
+#include "PluginProcessor.h"
 
 SlotRow::SlotRow(DJAM0AudioProcessor& proc, int slotIndex)
     : processor(proc), slot(slotIndex)
 {
-    const auto& apvts = processor.getAPVTS();
+    auto& apvts = processor.getAPVTS();
     auto& vt = apvts.state;
 
     // Title
@@ -16,9 +17,9 @@ SlotRow::SlotRow(DJAM0AudioProcessor& proc, int slotIndex)
     addAndMakeVisible(clipNameLabel);
 
     // Loop info label (bind to our *combined* Value)
-    clipLoopInfo.setJustificationType(juce::Justification::centredLeft);
-    clipLoopInfo.getTextValue().referTo(clipLoopInfoValue);
-    addAndMakeVisible(clipLoopInfo);
+    clipLoopInfoLabel.setJustificationType(juce::Justification::centredLeft);
+    clipLoopInfoLabel.getTextValue().referTo(clipLoopInfoValue);
+    addAndMakeVisible(clipLoopInfoLabel);
 
     // Slider & buttons
     clipIndexSlider.setSliderStyle(juce::Slider::IncDecButtons);
@@ -79,4 +80,23 @@ void SlotRow::updateClipLoopInfoText()
 
     // Update the combined Value once; Label updates automatically via referTo()
     clipLoopInfoValue = "Bars: " + barsStr + " | Samples: " + samplesStr;
+}
+
+
+void SlotRow::resized()
+{
+    auto r = getLocalBounds().reduced(4);      // Leaves 8px horizontal padding
+    auto col1 = r.removeFromLeft(88);          // "Slot 1:"
+    auto col6 = r.removeFromRight(30);         // Solo button (rightmost)
+    auto col5 = r.removeFromRight(30);         // Mute button
+    auto col4 = r.removeFromRight(90);         // Slider
+    auto col3 = r.removeFromRight(160);        // Loop info: "Bars: x | Samples: y"
+    auto col2 = r;                              // Remaining = Clip name
+
+    titleLabel.setBounds(col1);
+    clipNameLabel.setBounds(col2);
+    clipLoopInfoLabel.setBounds(col3);
+    clipIndexSlider.setBounds(col4);
+    muteButton.setBounds(col5.reduced(2));
+    soloButton.setBounds(col6.reduced(2));
 }

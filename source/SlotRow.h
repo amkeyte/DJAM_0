@@ -18,7 +18,7 @@ private:
     DJAM0AudioProcessor& processor;
     int slot = 0;
 
-    juce::Label titleLabel, clipNameLabel, clipLoopInfo;
+    juce::Label titleLabel, clipNameLabel, clipLoopInfoLabel;
     juce::Slider clipIndexSlider;
     juce::ToggleButton muteButton, soloButton;
 

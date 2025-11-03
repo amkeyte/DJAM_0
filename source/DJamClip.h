@@ -43,7 +43,7 @@ public:
 
 private:
     juce::AudioBuffer<float> buffer;
-    int barsLength = 1;
+    int barsLength = 8;
     juce::String name;
 
 

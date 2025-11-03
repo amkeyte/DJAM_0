@@ -1,7 +1,7 @@
 #pragma once
 #include <juce_gui_extra/juce_gui_extra.h>
 #include "PluginProcessor.h"
-
+#include "SlotRow.h"
 
 /**
  * The main plugin editor UI for D-Jam.
