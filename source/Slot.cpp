@@ -1,51 +1,97 @@
 #include "Slot.h"
 
-// Safe lookup into the clip bank
-static inline const DJamClip* clipAt(const std::vector<DJamClip>* bank, int idx) noexcept
+// Set the shared clip bank pointer
+void Slot::setClipBank(const std::vector<DJamClip>* bank)
 {
-    if (bank == nullptr || idx < 0 || idx >= static_cast<int>(bank->size()))
-        return nullptr;
-    return &(*bank)[static_cast<size_t>(idx)];
+    _clips = bank;
 }
+
+// Schedule a clip to start at the next quantized boundary
+void Slot::armStart(int clipIndex)
+{
+    _slotState.armedStart = true;
+    _slotState.pendingClip = clipIndex;
+}
+
+// Commit the armed start (called at bar boundary)
+void Slot::applyArmedStart()
+{
+    if (_slotState.armedStart && _clips != nullptr)
+    {
+        const int clipIndex = _slotState.pendingClip;
+
+        if (clipIndex >= 0 && clipIndex < (int)_clips->size())
+        {
+            _slotState.activeClip = clipIndex;
+            _slotState.phaseSamples = 0;
+            _slotState.name = (*_clips)[(size_t)clipIndex].getName();
+        }
+    }
+
+    _slotState.armedStart = false;
+    _slotState.pendingClip = -1;
+}
+
+void Slot::stopPlayback()
+{
+    _slotState.activeClip = -1;
+    _slotState.phaseSamples = 0;
+}
+
+void Slot::jumpTo(double ppq)
+{
+    if (_slotState.activeClip < 0 || !_clips) return;
+
+    const DJamClip& clip = (*_clips)[(size_t)_slotState.activeClip];
+    const double samplesPerBeat = clip.sampleRate * 60.0 / clip.bpm;
+
+    // Modulo numBeats allows looping
+    _slotState.phaseSamples = (int)(std::fmod(ppq, (double)clip.numBeats) * samplesPerBeat);
+}
+
+void Slot::toggleMute()
+{
+    _slotState.mute = !_slotState.mute;
+}
+
+void Slot::setSolo(bool v)
+{
+    _slotState.solo = v;
+}
+
+bool Slot::isMuted() const noexcept { return _slotState.mute; }
+bool Slot::isSolo() const noexcept { return _slotState.solo; }
+bool Slot::isArmed() const noexcept { return _slotState.armedStart; }
+
+int Slot::getActiveClipIndex() const noexcept { return _slotState.activeClip; }
+int Slot::getPendingClipIndex() const noexcept { return _slotState.pendingClip; }
 
 const DJamClip* Slot::getActiveClip() const noexcept
 {
-    return clipAt(_clips, _slotState.activeClip);
+    if (!_clips || _slotState.activeClip < 0 || _slotState.activeClip >= (int)_clips->size())
+        return nullptr;
+
+    return &(*_clips)[(size_t)_slotState.activeClip];
 }
 
 const DJamClip* Slot::getPendingClip() const noexcept
 {
-    return clipAt(_clips, _slotState.pendingClip);
+    if (!_clips || _slotState.pendingClip < 0 || _slotState.pendingClip >= (int)_clips->size())
+        return nullptr;
+
+    return &(*_clips)[(size_t)_slotState.pendingClip];
 }
 
 juce::String Slot::getActiveClipName() const noexcept
 {
-    if (const auto* c = getActiveClip())
-        return c->getName();
-    return {};
+    const DJamClip* c = getActiveClip();
+    return c ? c->getName() : juce::String();
 }
 
 juce::String Slot::getPendingClipName() const noexcept
 {
-    if (const auto* c = getPendingClip())
-        return c->getName();
-    return {};
-}
-
-void Slot::applyArmedStart()
-{
-    if (_slotState.armedStart)
-    {
-        if (const auto* c = clipAt(_clips, _slotState.pendingClip))
-        {
-            _slotState.activeClip = _slotState.pendingClip;
-            _slotState.phaseSamples = 0;
-            _slotState.name = c->getName(); // optional cache for UI
-        }
-
-        _slotState.armedStart = false;
-        _slotState.pendingClip = -1; // optional: clear after commit
-    }
+    const DJamClip* c = getPendingClip();
+    return c ? c->getName() : juce::String();
 }
 
 bool Slot::render(juce::AudioBuffer<float>& out,
@@ -54,20 +100,18 @@ bool Slot::render(juce::AudioBuffer<float>& out,
     int destOffset,
     const HostPhase& hp)
 {
-    if (_slotState.mute)
-        return false;
+    const DJamClip* clip = getActiveClip();
+    if (!clip || !clip->isLoaded()) return false;
 
-    const auto* clip = getActiveClip();
-    if (clip == nullptr || !clip->isLoaded())
-        return false;
-
+    // Render the clip into the output buffer
     clip->render(out, startSample, numSamples, destOffset, _slotState.phaseSamples);
 
-    _slotState.phaseSamples += numSamples;
+    // Advance phase
+    const double samplesPerBeat = hp.sampleRate * 60.0 / hp.bpm;
+    const int loopSamples = (int)(clip->getLoopLengthBars() * hp.beatsPerBar * samplesPerBeat);
 
-    const int len = clip->totalSamplesAt(hp.sampleRate, hp);
-    if (len > 0 && _slotState.phaseSamples >= len)
-        _slotState.phaseSamples %= len;
+    _slotState.phaseSamples = (_slotState.phaseSamples + numSamples) % loopSamples;
 
     return true;
 }
+

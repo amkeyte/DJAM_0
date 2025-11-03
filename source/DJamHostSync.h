@@ -10,9 +10,12 @@ struct HostPhase
     double bpm = 120.0;
     int numerator = 4, denominator = 4;
     bool isPlaying = false;
+    int beatsPerBar = 4; // default time signature
     double ppqPosition = 0.0;      // Host beats from start
     juce::int64 currentSample = 0;       // Host sample position
     double sampleRate = 44100.0;
+
+
 
     /** Returns the number of samples in one bar. */
     int samplesPerBar() const

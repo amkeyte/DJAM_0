@@ -76,6 +76,49 @@ bool DJAM0AudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) con
 void DJAM0AudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
     DBG("prepareToPlay");
+
+
+    //playhead hooks
+    playHead.onStart = [this](const juce::AudioPlayHead::CurrentPositionInfo& info)
+        {
+            DBG("Transport started");
+
+            // Reset timing and schedule base
+            scheduler.resetToHostPosition(info.ppqPosition);
+
+            // Resume playback of active clips
+            for (auto& s : slots)
+                s.jumpTo(info.ppqPosition);
+        };
+
+    playHead.onStop = [this]()
+        {
+            DBG("Transport stopped");
+
+            // Cancel any future starts
+            scheduler.stopAll();
+
+            // Stop all slot playback immediately
+            for (auto& s : slots)
+                s.stopPlayback();
+        };
+
+    playHead.onJump = [this](double oldPPQ, double newPPQ)
+        {
+            DBG("Transport jumped: " << oldPPQ << " → " << newPPQ);
+
+            // Cancel future starts (optional, depending on clip model)
+            scheduler.realignTo(newPPQ);
+
+            // You may want to optionally reset or drop playback here too
+            for (auto& s : slots)
+                s.jumpTo(newPPQ);
+        };
+
+
+
+
+
     juce::ignoreUnused(samplesPerBlock);
 
     hostPhase.sampleRate = sampleRate;

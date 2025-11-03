@@ -1,4 +1,5 @@
 #pragma once
+
 #include <vector>
 #include <juce_audio_basics/juce_audio_basics.h>
 #include "DJamClip.h"
@@ -12,7 +13,7 @@ struct SlotState
     bool solo = false;
     int  phaseSamples = 0;    // current position within clip
     bool armedStart = false;
-    int  pendingClip = -1;   // clip to activate when armed
+    int  pendingClip = -1;    // clip to activate when armed
     juce::String name;        // optional cache for display
 };
 
@@ -22,29 +23,29 @@ class Slot
 public:
     Slot() = default;
 
-    void setClipBank(const std::vector<DJamClip>* bank) { _clips = bank; }
+    void setClipBank(const std::vector<DJamClip>* bank);
 
-    void armStart(int clipIndex) { _slotState.armedStart = true; _slotState.pendingClip = clipIndex; }
-    void toggleMute() { _slotState.mute = !_slotState.mute; }
-    void setSolo(bool v) { _slotState.solo = v; }
+    void armStart(int clipIndex);
+    void applyArmedStart();
 
-    bool isMuted()   const noexcept { return _slotState.mute; }
-    bool isSolo()    const noexcept { return _slotState.solo; }
-    bool isArmed()   const noexcept { return _slotState.armedStart; }
+    void stopPlayback();
+    void jumpTo(double ppq);
 
-    // Indices
-    int getActiveClipIndex()  const noexcept { return _slotState.activeClip; }
-    int getPendingClipIndex() const noexcept { return _slotState.pendingClip; }
+    void toggleMute();
+    void setSolo(bool v);
 
-    // Direct pointers (nullptr if invalid)
+    bool isMuted()   const noexcept;
+    bool isSolo()    const noexcept;
+    bool isArmed()   const noexcept;
+
+    int getActiveClipIndex()  const noexcept;
+    int getPendingClipIndex() const noexcept;
+
     const DJamClip* getActiveClip()  const noexcept;
     const DJamClip* getPendingClip() const noexcept;
 
-    // *** Minimal convenience (null-safe one-liners) ***
     juce::String getActiveClipName()  const noexcept;
     juce::String getPendingClipName() const noexcept;
-
-    void applyArmedStart();
 
     bool render(juce::AudioBuffer<float>& out,
         int startSample,

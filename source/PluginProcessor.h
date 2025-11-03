@@ -8,6 +8,7 @@
 #include "QuantizedScheduler.h"
 #include "DJamClip.h"
 #include "Slot.h"
+#include "DJamPlayHead.h"
 
 // Forward-declare the editor
 class DJAM0AudioProcessorEditor;
@@ -79,6 +80,7 @@ private:
     std::array<Slot, kNumSlots>     slots;  // performer channels
     QuantizedScheduler              scheduler;
     HostPhase                       hostPhase{};
+    DJamPlayHead                    playHead;
 
     // Helpers
     juce::File findResourceSamplesRoot() const;
