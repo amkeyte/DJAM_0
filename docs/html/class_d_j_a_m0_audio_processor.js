@@ -1,0 +1,26 @@
+var class_d_j_a_m0_audio_processor =
+[
+    [ "DJAM0AudioProcessor", "class_d_j_a_m0_audio_processor.html#a99b0be9e434d4b406e00fc4928f8cc03", null ],
+    [ "~DJAM0AudioProcessor", "class_d_j_a_m0_audio_processor.html#a8d24bca858fcbd57795ac0b8f5d4c647", null ],
+    [ "acceptsMidi", "class_d_j_a_m0_audio_processor.html#a12525eb1d27c20348a4bc40953f5166d", null ],
+    [ "changeProgramName", "class_d_j_a_m0_audio_processor.html#af641fba9a122b18191298634e0909331", null ],
+    [ "createEditor", "class_d_j_a_m0_audio_processor.html#a0576829b10db88c49e903dbab2d0ccbe", null ],
+    [ "getAPVTS", "class_d_j_a_m0_audio_processor.html#ac36f8e1a5a2c9d102e6f68ef04a900bc", null ],
+    [ "getCurrentProgram", "class_d_j_a_m0_audio_processor.html#a7e44e8e267a8ff5032610e175bf23b65", null ],
+    [ "getName", "class_d_j_a_m0_audio_processor.html#a57be9f51cd1a73d10936cf2fd933f1e3", null ],
+    [ "getNumPrograms", "class_d_j_a_m0_audio_processor.html#aec9a5558080783503f2e2299e94cbd44", null ],
+    [ "getProgramName", "class_d_j_a_m0_audio_processor.html#a50343edc89ec7731382c51c613116d51", null ],
+    [ "getStateInformation", "class_d_j_a_m0_audio_processor.html#a9f03b14cf46a06df9dd09b0e17503671", null ],
+    [ "getTailLengthSeconds", "class_d_j_a_m0_audio_processor.html#a18574220f34c187f52a0065fbe08c6f8", null ],
+    [ "hasEditor", "class_d_j_a_m0_audio_processor.html#ab5bd6368072c66717f5fb5de0a91c15a", null ],
+    [ "isBusesLayoutSupported", "class_d_j_a_m0_audio_processor.html#a63d2be863e1fc88150dee83de93e9fcb", null ],
+    [ "parameterChanged", "class_d_j_a_m0_audio_processor.html#a3af2a8b36f77b49dade1d95a7bfdb502", null ],
+    [ "prepareToPlay", "class_d_j_a_m0_audio_processor.html#aad6c71f6a086b8102fbbf0402be1afeb", null ],
+    [ "processBlock", "class_d_j_a_m0_audio_processor.html#a599d52a8f6918da7ab8169bb0e7e7d8b", null ],
+    [ "producesMidi", "class_d_j_a_m0_audio_processor.html#a8e146ce012062d6aeb528a1eeb1a25ea", null ],
+    [ "releaseResources", "class_d_j_a_m0_audio_processor.html#ab981f4b88d0eafa1fd4f43921076407e", null ],
+    [ "setCurrentProgram", "class_d_j_a_m0_audio_processor.html#ab18666cba6a0b1f6fcebca48ca82029b", null ],
+    [ "setSlotClipName", "class_d_j_a_m0_audio_processor.html#a08c250c0a3a38222eaca7cde21627c60", null ],
+    [ "setStateInformation", "class_d_j_a_m0_audio_processor.html#afff334f1802aa778176c7d5d7db4e6ea", null ],
+    [ "toneGen", "class_d_j_a_m0_audio_processor.html#a2aee3f564f0d12ee844bba3ed8f5c9b3", null ]
+];
