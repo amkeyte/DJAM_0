@@ -1,0 +1,17 @@
+https://raw.githubusercontent.com/amkeyte/DJAM_0/master/source/DJamClip.cpp
+https://raw.githubusercontent.com/amkeyte/DJAM_0/master/source/DJamClip.h
+https://raw.githubusercontent.com/amkeyte/DJAM_0/master/source/DJamHostSync.cpp
+https://raw.githubusercontent.com/amkeyte/DJAM_0/master/source/DJamHostSync.h
+https://raw.githubusercontent.com/amkeyte/DJAM_0/master/source/DJamPlayHead.cpp
+https://raw.githubusercontent.com/amkeyte/DJAM_0/master/source/DJamPlayHead.h
+https://raw.githubusercontent.com/amkeyte/DJAM_0/master/source/PluginEditor.cpp
+https://raw.githubusercontent.com/amkeyte/DJAM_0/master/source/PluginEditor.h
+https://raw.githubusercontent.com/amkeyte/DJAM_0/master/source/PluginProcessor.cpp
+https://raw.githubusercontent.com/amkeyte/DJAM_0/master/source/PluginProcessor.h
+https://raw.githubusercontent.com/amkeyte/DJAM_0/master/source/QuantizedScheduler.cpp
+https://raw.githubusercontent.com/amkeyte/DJAM_0/master/source/QuantizedScheduler.h
+https://raw.githubusercontent.com/amkeyte/DJAM_0/master/source/scrap.txt
+https://raw.githubusercontent.com/amkeyte/DJAM_0/master/source/Slot.cpp
+https://raw.githubusercontent.com/amkeyte/DJAM_0/master/source/Slot.h
+https://raw.githubusercontent.com/amkeyte/DJAM_0/master/source/SlotRow.cpp
+https://raw.githubusercontent.com/amkeyte/DJAM_0/master/source/SlotRow.h
