@@ -1,117 +1,50 @@
 #include "Slot.h"
 
-// Set the shared clip bank pointer
-void Slot::setClipBank(const std::vector<DJamClip>* bank)
+void Slot::loadClip(const juce::File& file)
 {
-    _clips = bank;
+    clip = std::make_unique<DJamClip>();
+    clip->loadFromFile(file);
+    // No longer sets loop length — DJamClip is now read-only
 }
 
-// Schedule a clip to start at the next quantized boundary
-void Slot::armStart(int clipIndex)
-{
-    _slotState.armedStart = true;
-    _slotState.pendingClip = clipIndex;
-}
-
-// Commit the armed start (called at bar boundary)
-void Slot::applyArmedStart()
-{
-    if (_slotState.armedStart && _clips != nullptr)
-    {
-        const int clipIndex = _slotState.pendingClip;
-
-        if (clipIndex >= 0 && clipIndex < (int)_clips->size())
-        {
-            _slotState.activeClip = clipIndex;
-            _slotState.phaseSamples = 0;
-            _slotState.name = (*_clips)[(size_t)clipIndex].getName();
-        }
-    }
-
-    _slotState.armedStart = false;
-    _slotState.pendingClip = -1;
-}
-
-void Slot::stopPlayback()
-{
-    _slotState.activeClip = -1;
-    _slotState.phaseSamples = 0;
-}
-
-void Slot::jumpTo(double ppq)
-{
-    if (_slotState.activeClip < 0 || !_clips) return;
-
-    const DJamClip& clip = (*_clips)[(size_t)_slotState.activeClip];
-    const double samplesPerBeat = clip.sampleRate * 60.0 / clip.bpm;
-
-    // Modulo numBeats allows looping
-    _slotState.phaseSamples = (int)(std::fmod(ppq, (double)clip.numBeats) * samplesPerBeat);
-}
-
-void Slot::toggleMute()
-{
-    _slotState.mute = !_slotState.mute;
-}
-
-void Slot::setSolo(bool v)
-{
-    _slotState.solo = v;
-}
-
-bool Slot::isMuted() const noexcept { return _slotState.mute; }
-bool Slot::isSolo() const noexcept { return _slotState.solo; }
-bool Slot::isArmed() const noexcept { return _slotState.armedStart; }
-
-int Slot::getActiveClipIndex() const noexcept { return _slotState.activeClip; }
-int Slot::getPendingClipIndex() const noexcept { return _slotState.pendingClip; }
-
-const DJamClip* Slot::getActiveClip() const noexcept
-{
-    if (!_clips || _slotState.activeClip < 0 || _slotState.activeClip >= (int)_clips->size())
-        return nullptr;
-
-    return &(*_clips)[(size_t)_slotState.activeClip];
-}
-
-const DJamClip* Slot::getPendingClip() const noexcept
-{
-    if (!_clips || _slotState.pendingClip < 0 || _slotState.pendingClip >= (int)_clips->size())
-        return nullptr;
-
-    return &(*_clips)[(size_t)_slotState.pendingClip];
-}
-
-juce::String Slot::getActiveClipName() const noexcept
-{
-    const DJamClip* c = getActiveClip();
-    return c ? c->getName() : juce::String();
-}
-
-juce::String Slot::getPendingClipName() const noexcept
-{
-    const DJamClip* c = getPendingClip();
-    return c ? c->getName() : juce::String();
-}
-
-bool Slot::render(juce::AudioBuffer<float>& out,
-    int startSample,
-    int numSamples,
-    int destOffset,
+void Slot::render(juce::AudioBuffer<float>& output,
+    int startSample, int numSamples,
     const HostPhase& hp)
 {
-    const DJamClip* clip = getActiveClip();
-    if (!clip || !clip->isLoaded()) return false;
+    if (!clip || !clip->isLoaded())
+        return;
 
-    // Render the clip into the output buffer
-    clip->render(out, startSample, numSamples, destOffset, _slotState.phaseSamples);
+    const int totalSamples = totalSamplesAtHostPhase(hp.sampleRate, hp);
+    const double samplesPerBeat = (60.0 / hp.bpm) * hp.sampleRate;
 
-    // Advance phase
-    const double samplesPerBeat = hp.sampleRate * 60.0 / hp.bpm;
-    const int loopSamples = (int)(clip->getLoopLengthBars() * hp.beatsPerBar * samplesPerBeat);
+    int startBeat = static_cast<int>(std::floor(playheadPositionBeats));
+    int beatCount = static_cast<int>(std::ceil((double)numSamples / samplesPerBeat));
 
-    _slotState.phaseSamples = (_slotState.phaseSamples + numSamples) % loopSamples;
+    clip->render(output, startSample, numSamples, startBeat, beatCount);
 
-    return true;
+    // Update playhead position
+    playheadPositionBeats += ((double)numSamples / samplesPerBeat);
+    while (playheadPositionBeats >= barsLength * hp.beatsPerBar)
+        playheadPositionBeats -= barsLength * hp.beatsPerBar;
 }
 
+void Slot::jumpTo(double hostPPQ)
+{
+    if (!clip || !clip->isLoaded())
+        return;
+
+    const double beatsPerBar = clip->getBeatsPerBar();
+    const double totalBeats = barsLength * beatsPerBar;
+
+    playheadPositionBeats = std::fmod(hostPPQ, totalBeats);
+}
+
+int Slot::totalSamplesAtHostPhase(double sampleRate, const HostPhase& hp) const
+{
+    if (!clip || !clip->isLoaded())
+        return 0;
+
+    const double beats = barsLength * hp.beatsPerBar;
+    const double seconds = (60.0 * beats) / hp.bpm;
+    return static_cast<int>(seconds * sampleRate);
+}

@@ -1,61 +1,41 @@
 #pragma once
 
-#include <vector>
+#include <memory>
+#include <juce_core/juce_core.h>
 #include <juce_audio_basics/juce_audio_basics.h>
+
 #include "DJamClip.h"
 #include "DJamHostSync.h"
 
-/** Playback state for one slot */
-struct SlotState
-{
-    int  activeClip = -1;
-    bool mute = false;
-    bool solo = false;
-    int  phaseSamples = 0;    // current position within clip
-    bool armedStart = false;
-    int  pendingClip = -1;    // clip to activate when armed
-    juce::String name;        // optional cache for display
-};
-
-/** A single performer slot that can play one clip at a time. */
+/**
+ * A single audio slot that holds one clip and renders it
+ * during scheduled playback, quantized to bars/beats.
+ */
 class Slot
 {
 public:
     Slot() = default;
 
-    void setClipBank(const std::vector<DJamClip>* bank);
+    /** Loads an audio clip into this slot. */
+    void loadClip(const juce::File& file);
 
-    void armStart(int clipIndex);
-    void applyArmedStart();
-
-    void stopPlayback();
-    void jumpTo(double ppq);
-
-    void toggleMute();
-    void setSolo(bool v);
-
-    bool isMuted()   const noexcept;
-    bool isSolo()    const noexcept;
-    bool isArmed()   const noexcept;
-
-    int getActiveClipIndex()  const noexcept;
-    int getPendingClipIndex() const noexcept;
-
-    const DJamClip* getActiveClip()  const noexcept;
-    const DJamClip* getPendingClip() const noexcept;
-
-    juce::String getActiveClipName()  const noexcept;
-    juce::String getPendingClipName() const noexcept;
-
-    bool render(juce::AudioBuffer<float>& out,
-        int startSample,
-        int numSamples,
-        int destOffset,
+    /** Renders the clip at the specified host phase into the output buffer. */
+    void render(juce::AudioBuffer<float>& output,
+        int startSample, int numSamples,
         const HostPhase& hp);
 
-    const SlotState& state() const noexcept { return _slotState; }
+    /** Sets the loop length of this slot (in bars). */
+    void setBarsLength(int bars) noexcept { barsLength = bars; }
+
+    /** Called to sync this slot to a new playhead position. */
+    void jumpTo(double hostPPQ);
+
+    /** Returns the number of samples this clip will occupy at the given host phase. */
+    int totalSamplesAtHostPhase(double sampleRate, const HostPhase& hp) const;
 
 private:
-    const std::vector<DJamClip>* _clips = nullptr;
-    SlotState _slotState;
+    std::unique_ptr<DJamClip> clip;
+    int barsLength = 1;
+
+    double playheadPositionBeats = 0.0;
 };
